@@ -4,7 +4,7 @@ The scripts in this repository reproduce the experiments of:
 Xiaoqing Wang, Florian Kohler, Christina Unterberg-Buchwald, Joachim Lotz,
 Jens Frahm, Martin Uecker. Model-based myocardial T1 mapping with sparsity
 constraints using single-shot inversion-recovery radial FLASH Cardiovascular
-Magnetic Resonance. Journal of Cardiovascular Magnetic Resonance, in press.
+Magnetic Resonance. Journal of Cardiovascular Magnetic Resonance 21:60 (2019)
 
 
 * https://mrirecon.github.io/bart
