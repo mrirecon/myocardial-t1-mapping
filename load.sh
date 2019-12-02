@@ -20,8 +20,10 @@ if [ ! -d $outdir ] ; then
 fi
 
 cd ${outdir}
-echo Downloading ${name}
-wget -q https://zenodo.org/record/${record}/files/${name}.hdr
-wget -q https://zenodo.org/record/${record}/files/${name}.cfl
+if [[ ! -f ${name}.hdr || ! -f ${name}.cfl ]]; then
+	echo Downloading ${name}
+	wget -q https://zenodo.org/record/${record}/files/${name}.hdr
+	wget -q https://zenodo.org/record/${record}/files/${name}.cfl
+fi
 cat md5sum.txt | grep ${name} | md5sum -c --ignore-missing
 
