@@ -65,11 +65,6 @@ cd $WORKDIR
 
 START=$(date +%s)
 
-NONEXP_FLAG=""
-if bart version -t v0.7.00 ; then
-	NONEXP_FLAG="--no_alpha_min_exp_decay"
-fi
-
 which bart
 bart version
 #bart moba $NONEXP_FLAG $ADD_OPTS   -L -i10 -C300 -s0.475 -B0.3 -d4 -R3 -j$lambda -N -p $psf $ksp $TI reco sens
