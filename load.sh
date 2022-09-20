@@ -1,5 +1,5 @@
 #!/bin/bash
-#set -e
+set -e
 
 usage="Usage: $0 <record> <name> <outdir>"
 

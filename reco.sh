@@ -1,13 +1,12 @@
 #!/bin/bash
-#set -e
-
-export PATH=$TOOLBOX_PATH:$PATH
-export BART_COMPAT_VERSION="v0.5.00"
+set -e
 
 if [ ! -e $TOOLBOX_PATH/bart ] ; then
         echo "\$TOOLBOX_PATH is not set correctly!" >&2
         exit 1
 fi
+export PATH=$TOOLBOX_PATH:$PATH
+export BART_COMPAT_VERSION="v0.5.00"
 
 usage="Usage: $0 <TI> <psf> <ksp> <output>"
 
@@ -43,11 +42,17 @@ if [ ! -e $ksp ] ; then
         exit 1
 fi
 
-if [ ! -e $TOOLBOX_PATH/bart ] ; then
-        echo "\$TOOLBOX_PATH is not set correctly!" >&2
-        exit 1
+if ./utils/version_check.sh ; then
+	ADD_OPTS="--normalize_scaling --other pinit=1:1:1.5:1 --scale_data 5000 --scale_psf 1000 --no_alpha_min_exp_decay"
+else
+	ADD_OPTS=""
 fi
+echo $ADD_OPTS
 
+NONEXP_FLAG=""
+if bart version -t v0.7.00 ; then
+	NONEXP_FLAG="--no_alpha_min_exp_decay"
+fi
 
 #WORKDIR=$(mktemp -d)
 # Mac: http://unix.stackexchange.com/questions/30091/fix-or-alternative-for-mktemp-in-os-x
@@ -67,10 +72,10 @@ fi
 
 which bart
 bart version
-bart moba $NONEXP_FLAG -L -i10 -C300 -s0.475 -B0.3 -d4 -R3 -j$lambda -N -p $psf $ksp $TI reco sens
+#bart moba $NONEXP_FLAG $ADD_OPTS   -L -i10 -C300 -s0.475 -B0.3 -d4 -R3 -j$lambda -N -p $psf $ksp $TI reco sens
 
 # GPU:
-#bart moba -g $NONEXP_FLAG -L -i10 -C300 -s0.475 -B0.3 -d4 -R3 -j$lambda -N -p $psf $ksp $TI reco sens
+bart moba $NONEXP_FLAG $ADD_OPTS -g -L -i10 -C300 -s0.475 -B0.3 -d4 -R3 -j$lambda -N -p $psf $ksp $TI reco sens
 
 END=$(date +%s)
 DIFF=$(($END - $START))

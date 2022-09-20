@@ -1,5 +1,12 @@
 #!/bin/bash
-#set -e
+set -e
+
+if [ ! -e $TOOLBOX_PATH/bart ] ; then
+        echo "\$TOOLBOX_PATH is not set correctly!" >&2
+        exit 1
+fi
+export PATH=$TOOLBOX_PATH:$PATH
+export BART_COMPAT_VERSION="v0.5.00"
 
 usage="Usage: $0 <input> <outpsf> <outksp>"
 
@@ -8,9 +15,6 @@ if [ $# -lt 3 ] ; then
         echo "$usage" >&2
         exit 1
 fi
-
-export PATH=$TOOLBOX_PATH:$PATH
-export BART_COMPAT_VERSION="v0.5.00"
 
 
 input=$(readlink -f "$1")
@@ -22,12 +26,6 @@ if [ ! -e ${input}.cfl ] ; then
         echo "$usage" >&2
         exit 1
 fi
-
-if [ ! -e $TOOLBOX_PATH/bart ] ; then
-        echo "\$TOOLBOX_PATH is not set correctly!" >&2
-        exit 1
-fi
-
 
 #WORKDIR=$(mktemp -d)
 # Mac: http://unix.stackexchange.com/questions/30091/fix-or-alternative-for-mktemp-in-os-x
